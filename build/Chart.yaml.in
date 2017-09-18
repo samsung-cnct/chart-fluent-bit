@@ -1,14 +1,18 @@
-name: sample-chart
+name: fluent-bit-chart
 version: ${CHART_VER}-${CHART_REL}
-description: Sample chart template for registry
+description: Fluent-bit chart for collecting journald, docker, and kernel logs within a kraken created kubernetes cluster
 keywords:
-- keyword one
-- keyword two
-home: https://github.com/samsung-cnct/template-chart
+- logging
+- journald
+- docker
+- kernel
+- fluent
+- kraken
+home: https://github.com/samsung-cnct/chart-fluent-bit
 sources:
-- /source urls go here/
+- https://github.com/samsung-cnct/chart-fluent-bit
 maintainers:
 - name: Samsung CNCT
   email: samsung.cloudnative@gmail.com
-icon: /optional icon url/
+icon: https://github.com/fluent/fluent-bit/blob/master/fluentbit_logo.png
 engine: gotpl
