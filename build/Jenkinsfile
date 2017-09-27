@@ -7,14 +7,23 @@ def chart_name = "fluent-bit-chart";
 def helm_registry_image = "quay.io/samsung_cnct/helm-registry-agent";
 def helm_registry_version = "v0.1.5";
 
-podTemplate(label: 'chart-builder', containers: [
+podTemplate(label: "${chart_name}", containers: [
         containerTemplate(name: 'jnlp', image: 'quay.io/samsung_cnct/custom-jnlp:0.1', args: '${computer.jnlpmac} ${computer.name}'),
         containerTemplate(name: 'helm-registry-agent', image: 'quay.io/samsung_cnct/helm-registry-agent:v0.1.5', ttyEnabled: true, command: 'cat', alwaysPullImage: true, resourceRequestMemory: '256Mi', resourceLimitMemory: '256Mi'),
-]) {
-    node('chart-builder') {
+        ], volumes: [
+            hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
+            hostPathVolume(hostPath: '/var/lib/docker/scratch', mountPath: '/mnt/scratch'),
+            secretVolume(mountPath: '/home/jenkins/.docker/', secretName: 'samsung-cnct-quay-robot-dockercfg')
+            ]
+) {
+    node("${chart_name}") {
         customContainer('helm-registry-agent'){
             stage('Checkout') {
                 checkout scm
+                // retrieve the URI used for checking out the source
+                // this assumes one branch with one uri
+                git_uri = scm.getRepositories()[0].getURIs()[0].toString()
+                git_branch = scm.getBranches()[0].toString()
             }
 
             stage('Build') {
