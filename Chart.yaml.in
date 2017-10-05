@@ -1,4 +1,4 @@
-name: fluent-bit-chart
+name: fluent-bit
 version: ${CHART_VER}-${CHART_REL}
 description: Fluent-bit chart for collecting journald, docker, and kernel logs within a kraken created kubernetes cluster
 keywords:
