@@ -6,7 +6,7 @@ https://quay.io/application/samsung_cnct/fluent-bit and
 https://quay.io/repository/samsung_cnct/fluent-bit-container respectively.
 
 Currently this daemonset reads [Docker logs](https://docs.docker.com/engine/admin/logging/overview/) from `/var/log/containers` and [journald logs](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) from `/var/log/journal`. It adds Kubernetes metadata to the logs and writes them to stdout.
-
+It is included in our [logging](https://github.com/samsung-cnct/chart-logging) pipeline. 
 ## Plugins
 
 #### Systemd Input Plugin
