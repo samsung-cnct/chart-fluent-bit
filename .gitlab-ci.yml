@@ -18,6 +18,9 @@ before_script:
 
 build_chart:
   stage: build
+  artifacts: 
+    paths:
+      - ${chart_name}
   script:
     - sh build/build.sh
 
