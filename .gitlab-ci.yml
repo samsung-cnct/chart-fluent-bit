@@ -29,7 +29,7 @@ build_foo:
 helm_test:
   stage: test
   script:
-    - build/test.sh
+    - sh build/test.sh
 
 helm_publish:
   stage: publish
