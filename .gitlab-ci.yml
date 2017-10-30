@@ -37,8 +37,8 @@ helm_test:
 
 helm_publish_alpha:
   stage: publish
-  only:
-    - master
+  # only:
+  #   - master
   script:
     - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c alpha
 
