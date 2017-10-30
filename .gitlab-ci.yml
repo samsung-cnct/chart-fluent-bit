@@ -47,4 +47,4 @@ helm_publish_tag:
   only:
     - /v[0-9]+\.[0-9]+(\.[0-9]+[a-z]?)?/
   script:
-    - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c stable_test
+    - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c stable
