@@ -16,23 +16,22 @@ stages:
 before_script:
   - helm registry login -u ${registry_user}+${robot_account} -p ${REGISTRY_PASSWORD} ${registry}
 
-# build_chart:
-#   stage: build
-  # script:
-  #   - build/build.sh
+build_chart:
+  stage: build
+  script:
+    - build/build.sh
 
 build_foo:
   stage: build
   script:
     - echo "I'm a little teapot"
 
+helm_test:
+  stage: test
+  script:
+    - build/test.sh
 
-# helm_test:
-#   stage: test
-#   script:
-#     - build/test.sh
-
-# helm_publish:
-#   stage: publish
-#   script:
-#     - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c alpha
+helm_publish:
+  stage: publish
+  script:
+    - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c alpha
