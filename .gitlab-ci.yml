@@ -18,23 +18,33 @@ before_script:
 
 build_chart:
   stage: build
+  only:
+    - tags
+    - branches
   artifacts: 
     paths:
       - ${chart_name}
   script:
     - sh build/build.sh
 
-build_foo:
-  stage: build
-  script:
-    - echo "I'm a little teapot"
-
 helm_test:
   stage: test
+  only:
+    - tags
+    - branches
   script:
     - sh build/test.sh
 
-helm_publish:
+helm_publish_alpha:
   stage: publish
+  only:
+    - master
   script:
     - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c alpha
+
+helm_publish_tag:
+  stage: publish
+  only:
+    - /v[0-9]+\.[0-9]+(\.[0-9]+[a-z]?)?/
+  script:
+    - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c stable_test
