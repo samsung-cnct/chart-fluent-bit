@@ -4,7 +4,7 @@ variables:
   registry: quay.io
   registry_user: samsung_cnct
   chart_name: fluent-bit
-  robot_account: fluent-bit
+  robot_account: fluent_bit_rw
   helm_registry_image: quay.io/samsung_cnct/helm-registry-agent
   helm_registry_version: v0.1.5
 
