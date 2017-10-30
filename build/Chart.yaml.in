@@ -1,19 +1,18 @@
-name: nginx-ingress
+name: fluent-bit
 version: ${CHART_VER}-${CHART_REL}
-description: Chart for an nginx powered ingress controller
+description: Fluent-bit chart for collecting journald, docker, and kernel logs within a kraken created kubernetes cluster
 keywords:
-- nginx
-- reverse proxy
-- ingress controller
-home: https://github.com/samsung-cnct/chart-ingress-nginx
+- logging
+- journald
+- docker
+- kernel
+- fluent
+- kraken
+home: https://github.com/samsung-cnct/chart-fluent-bit
 sources:
-- https://github.com/kubernetes/ingress/tree/master/examples/rbac/nginx
+- https://github.com/samsung-cnct/chart-fluent-bit
 maintainers:
-- name: Marat Garafutdinov
-  email: maratoid@gmail.com
-- name: Joe Julian
-  email: me@joejulian.name
-- name: Michael Venezia
-  email: mvenezia@gmail.com
-icon: https://davidewatson.github.io/k2/_static/k2.png
+- name: Samsung CNCT
+  email: samsung.cloudnative@gmail.com
+icon: https://github.com/fluent/fluent-bit/blob/master/fluentbit_logo.png
 engine: gotpl
