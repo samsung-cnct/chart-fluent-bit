@@ -1,0 +1,19 @@
+name: nginx-ingress
+version: ${CHART_VER}-${CHART_REL}
+description: Chart for an nginx powered ingress controller
+keywords:
+- nginx
+- reverse proxy
+- ingress controller
+home: https://github.com/samsung-cnct/chart-ingress-nginx
+sources:
+- https://github.com/kubernetes/ingress/tree/master/examples/rbac/nginx
+maintainers:
+- name: Marat Garafutdinov
+  email: maratoid@gmail.com
+- name: Joe Julian
+  email: me@joejulian.name
+- name: Michael Venezia
+  email: mvenezia@gmail.com
+icon: https://davidewatson.github.io/k2/_static/k2.png
+engine: gotpl
