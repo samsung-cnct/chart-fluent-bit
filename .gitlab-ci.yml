@@ -19,7 +19,7 @@ before_script:
 build_chart:
   stage: build
   script:
-    - build/build.sh
+    - sh build/build.sh
 
 build_foo:
   stage: build
