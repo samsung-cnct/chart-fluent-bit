@@ -15,8 +15,8 @@ stages:
 
 before_script:
   - helm registry login -u ${registry_user}+${robot_account} -p ${REGISTRY_PASSWORD} ${registry}
-  - export CHART_VER=$(git describe --tags --abbrev=0 2>/dev/null)
-  - export CHART_REL=$(git rev-list --count ${CHART_VER}..HEAD 2>/dev/null )
+  - export CHART_VER=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
+  - export CHART_REL=$(git rev-list --count $v{CHART_VER}..HEAD 2>/dev/null )
 build_chart:
   stage: build
   only:
@@ -46,6 +46,6 @@ helm_publish_alpha:
 helm_publish_tag:
   stage: publish
   only:
-    - /[0-9]+\.[0-9]+(\.[0-9]+[a-z]?)?/
+    - /v[0-9]+\.[0-9]+(\.[0-9]+[a-z]?)?/
   script:
     - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c stable
