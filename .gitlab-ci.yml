@@ -49,3 +49,5 @@ helm_publish_tag:
     - /v[0-9]+\.[0-9]+(\.[0-9]+[a-z]?)?/
   script:
     - cd ${chart_name} && helm registry push ${registry}/${registry_user}/${chart_name} -c stable
+    
+#bogus comment to maybe trigger ci?
