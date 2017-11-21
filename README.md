@@ -1,4 +1,5 @@
 # Fluent-bit Daemonset for Kubernetes Logging
+[![pipeline status](https://git.cnct.io/common-tools/samsung-cnct_chart-fluent-bit/badges/master/pipeline.svg)](https://git.cnct.io/common-tools/samsung-cnct_chart-fluent-bit/commits/master)
 
 [Fluent-bit](http://fluentbit.io/) daemonset dependencies for Kubernetes
 logging. The helm chart and docker image for this repository are located at:
