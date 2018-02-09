@@ -4,5 +4,4 @@
 # name: value
 
 name: fluent-bit
-namespace: default
 image: quay.io/samsung_cnct/fluent-bit-container:latest
