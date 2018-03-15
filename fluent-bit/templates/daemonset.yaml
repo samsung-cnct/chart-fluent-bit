@@ -32,12 +32,23 @@ spec:
           requests:
             cpu: 100m
             memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 200Mi
         volumeMounts:
         - name: varlog
           mountPath: /var/log
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
           readOnly: true
+        {{- if .Values.tolerations }}
+        tolerations: 
+        {{- range .Values.tolerations }}
+        - key: {{ .key | default("")}}
+          value: {{ .value | default("")}}
+          operator: {{ .operator | default("")}}
+          effect: {{ .effect | default("")}}
+        {{- end }}
       terminationGracePeriodSeconds: 10
       volumes:
       - name: varlog
