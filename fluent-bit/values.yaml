@@ -5,3 +5,10 @@
 
 name: fluent-bit
 image: quay.io/samsung_cnct/fluent-bit-container:latest
+
+#  example toleration
+#tolerations:
+#  - key: taintKey
+#    value: taintValue
+#    operator: Equal
+#    effect: NoSchedule
