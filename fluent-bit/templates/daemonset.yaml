@@ -44,10 +44,11 @@ spec:
         {{- if .Values.tolerations }}
         tolerations: 
         {{- range .Values.tolerations }}
-        - key: {{ .key | default("")}}
-          value: {{ .value | default("")}}
-          operator: {{ .operator | default("")}}
-          effect: {{ .effect | default("")}}
+        - key: {{ .key | default ("") }}
+          value: {{ .value | default ("") }}
+          operator: {{ .operator | default ("Equal") }}
+          effect: {{ .effect | default ("") }}
+        {{- end }}
         {{- end }}
       terminationGracePeriodSeconds: 10
       volumes:
