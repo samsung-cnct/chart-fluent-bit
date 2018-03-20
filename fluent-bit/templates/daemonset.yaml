@@ -42,14 +42,14 @@ spec:
           mountPath: /var/lib/docker/containers
           readOnly: true
         {{- if .Values.tolerations }}
-        tolerations: 
-        {{- range .Values.tolerations }}
-        - key: {{ .key | default ("") }}
-          value: {{ .value | default ("") }}
-          operator: {{ .operator | default ("Equal") }}
-          effect: {{ .effect | default ("") }}
-        {{- end }}
-        {{- end }}
+      tolerations: 
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("") }}
+        operator: {{ .operator | default ("Equal") }}          
+        effect: {{ .effect | default ("") }}
+      {{- end }}
+      {{- end }}
       terminationGracePeriodSeconds: 10
       volumes:
       - name: varlog
