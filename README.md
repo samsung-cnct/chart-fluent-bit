@@ -32,3 +32,6 @@ This filter adds the following data into the body of the log.
 * docker container id
 
 For more information on the filter or to see a list of configuration options: http://fluentbit.io/documentation/0.12/filter/kubernetes.html
+
+## CI system
+This repository uses [gitlab ci](https://about.gitlab.com/features/gitlab-ci-cd/) for CI.  The gitlab ci config file sets a number of tests to be run for each commit to an open PR, a merge to master and for a pushed tag.  Specifics on the testing can be found in .gitlab-ci.yml at the top level of this repository.
