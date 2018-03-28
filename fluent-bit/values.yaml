@@ -6,6 +6,14 @@
 name: fluent-bit
 image: quay.io/samsung_cnct/fluent-bit-container:latest
 
+resources:
+  requests:
+    cpu: 100m
+    mem: 500Mi
+  limits:
+    cpu: 300m
+    mem: 1000Mi
+
 #  example toleration
 #tolerations:
 #  - key: taintKey
