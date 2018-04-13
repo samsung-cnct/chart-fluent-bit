@@ -25,9 +25,9 @@ spec:
         image: {{.Values.image}}
         env:
           - name:  FLUENT_ELASTICSEARCH_HOST
-            value: "elasticsearch"
+            value: "{{.Values.elasticSearchHost}}"
           - name:  FLUENT_ELASTICSEARCH_PORT
-            value: "9200"
+            value: "{{.Values.elasticSearchPort}}"
         resources:
           requests:
             cpu: {{.Values.resources.requests.cpu}}
