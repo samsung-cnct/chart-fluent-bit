@@ -4,7 +4,7 @@
 # name: value
 
 name: fluent-bit
-image: quay.io/samsung_cnct/fluent-bit-container:v0.0.1
+image: quay.io/samsung_cnct/fluent-bit-container:v0.0.2
 
 resources:
   requests:
@@ -14,7 +14,7 @@ resources:
     cpu: 300m
     mem: 1000Mi
 
-elasticSearchHost: elasticsearch 
+elasticSearchHost: elasticsearch
 elasticSearchPort: 9200
 
 #  example toleration
