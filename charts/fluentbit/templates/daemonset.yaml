@@ -8,7 +8,7 @@ metadata:
     k8s-app: fluent-bit-logging
     version: v1
     kubernetes.io/cluster-service: "true"
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    chart: "{{.Chart.Name}}"
     release: "{{.Release.Name}}"
     heritage: "{{.Release.Service}}"
 spec:
