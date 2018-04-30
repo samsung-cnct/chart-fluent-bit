@@ -1,0 +1,19 @@
+---
+name: fluent-bit
+version: 0.0.1
+description: Fluent-bit chart for collecting journald, docker, and kernel logs
+keywords:
+  - logging
+  - journald
+  - docker
+  - kernel
+  - fluent
+  - kraken
+home: https://github.com/samsung-cnct/chart-fluent-bit
+sources:
+  - https://github.com/samsung-cnct/chart-fluent-bit
+maintainers:
+  - name: Samsung CNCT
+    email: samsung.cloudnative@gmail.com
+icon: https://github.com/fluent/fluent-bit/blob/master/fluentbit_logo.png
+engine: gotpl
