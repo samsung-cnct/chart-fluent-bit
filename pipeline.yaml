@@ -1,0 +1,14 @@
+---
+type: chart
+rootfs:
+  - image: samsung_cnct/fluentbit
+    context: fluentbit
+    chart: fluentbit
+    value: image
+configs:
+  - chart: fluentbit
+    timeout: 600
+    retries: 1
+    release: fluentbit
+prod:
+  doDeploy: none
