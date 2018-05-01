@@ -1,7 +1,7 @@
 ---
 type: chart
 rootfs:
-  - image: samsung_cnct/fluent-bit
+  - image: samsung_cnct/fluent-bit-container
     context: fluent-bit
     chart: fluent-bit
     value: image
