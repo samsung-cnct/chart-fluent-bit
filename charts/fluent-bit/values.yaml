@@ -1,0 +1,14 @@
+---
+name: fluent-bit
+image: quay.io/samsung_cnct/fluent-bit-container:prod
+
+resources:
+  requests:
+    cpu: 100m
+    mem: 500Mi
+  limits:
+    cpu: 300m
+    mem: 1000Mi
+
+elasticSearchHost: elasticsearch
+elasticSearchPort: 9200
