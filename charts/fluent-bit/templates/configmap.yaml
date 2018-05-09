@@ -15,6 +15,8 @@ data:
 {{ $val | indent 4}}
 {{- end }}
 {{ else }}
-  fluent-bit.yaml: |-
-{{- include "fluent-bit.yaml.tpl" . | indent 4}}
+  fluent-bit.conf: |-
+{{- include "fluent-bit.conf.tpl" . | indent 4}}
+  parsers.conf: |-
+{{- include "parsers.conf.tpl" . | indent 4}}
 {{ end }}
