@@ -2,6 +2,8 @@
 name: fluent-bit
 image: quay.io/samsung_cnct/fluent-bit-container:prod
 
+cluster_uuid: 00000000-0000-0000-0000-000000000000
+
 resources:
   requests:
     cpu: 100m

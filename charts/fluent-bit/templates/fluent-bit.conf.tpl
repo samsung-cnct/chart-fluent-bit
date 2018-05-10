@@ -21,6 +21,11 @@
     Mem_Buf_Limit 5MB
 
 [FILTER]
+    Name record_modifier
+    Match *
+    Record cluster_uuid {{ .Values.cluster_uuid }}
+
+[FILTER]
     Name   kubernetes
     Match  kube.*
     Merge_JSON_Log On
