@@ -4,6 +4,11 @@
     Log_Level    info
     Parsers_File parsers.conf
 
+SERVICE]
+    HTTP_Server  On
+    HTTP_Listen  0.0.0.0
+    HTTP_PORT    2020
+
 [INPUT]
     Name            systemd
     Tag             host.*

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fluent-bit.fullname" . }}
+  labels:
+    app: {{ template "fluent-bit.name" . }}
+    chart: {{ template "namewithversion" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  run.sh: |-
+    @test "Testing internal fluent-bit service" {
+      run curl -s http://127.0.0.1:2020/ | jq
+      [ "$status" -eq 0 ]
+    }
