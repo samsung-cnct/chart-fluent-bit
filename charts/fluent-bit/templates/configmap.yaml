@@ -5,18 +5,18 @@ metadata:
   labels:
     app: {{ template "name" . }}
     chart: {{ template "namewithversion" . }}
-    release: "{{.Release.Name}}"
-    heritage: "{{.Release.Service}}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 data:
-{{- if .Values.config }}
-{{- $root := . }}
-{{- range $key, $val := .Values.config }}
-  {{ $key }}: |-
-{{ $val | indent 4}}
-{{- end }}
-{{ else }}
   fluent-bit.conf: |-
-{{- include "fluent-bit.conf.tpl" . | indent 4}}
+{{- if .Values.config }}
+{{ .Values.config | indent 4 }}
+{{- else }}
+{{- include "fluent-bit.conf.tpl" . | indent 4 }}
+{{- end }}
   parsers.conf: |-
-{{- include "parsers.conf.tpl" . | indent 4}}
-{{ end }}
+{{- if .Values.parsers }}
+{{ .Values.parsers | indent 4 }}
+{{- else }}
+{{- include "parsers.conf.tpl" . | indent 4 }}
+{{- end }}

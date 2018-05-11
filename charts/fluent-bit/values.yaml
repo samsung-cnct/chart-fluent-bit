@@ -14,3 +14,7 @@ resources:
 
 elasticSearchHost: elasticsearch
 elasticSearchPort: 9200
+
+#config: |-
+
+#parsers: |-
