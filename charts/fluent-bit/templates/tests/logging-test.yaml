@@ -26,8 +26,8 @@ spec:
   containers:
     - name: {{ .Release.Name }}
       # TODO: We might consider building our own Samsung base image for
-      # tests. We can't depend on public artifacts, especially since
-      # they are not tagged.
+      # tests. We can't depend on public artifacts, especially given
+      # that these are not tagged.
       image: everpeace/curl-jq
       command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
       volumeMounts:

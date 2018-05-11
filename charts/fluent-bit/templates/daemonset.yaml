@@ -35,6 +35,8 @@ spec:
             limits:
               cpu: {{.Values.resources.limits.cpu}}
               memory: {{.Values.resources.limits.mem}}
+          ports:
+          - containerPort: 2020
           volumeMounts:
           - name: fbconfig
             mountPath: /fluent-bit/etc/fluent-bit.conf
