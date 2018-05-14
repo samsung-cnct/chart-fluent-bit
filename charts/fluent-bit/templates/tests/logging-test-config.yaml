@@ -10,6 +10,25 @@ metadata:
 data:
   run.sh: |-
     @test "Test that every input plugin has produced at least one record." {
-      result=$(curl http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics | jq '[(.input[].records | select(. == 0)) ] | length')
-      [ "$result" = "0" ]
+
+        INVALID=0
+        # Get initial health code
+        healthCode=${INVALID}
+
+        until [ "${healthCode}" -gt "${INVALID}" ]; do
+          healthCode=$(curl -s --connect-timeout 1 \
+            -w %{http_code} \
+            --location \
+              http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)
+
+          # sleep for a 3 sec if failed
+          if [ "${healthCode}" -eq "${INVALID}" ]; then
+            echo "Will retry, result is ${healthCode}"
+            sleep 3;
+          fi
+        done
+
+        result=$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics | \
+          jq '[(.input[].records | select(. == 0)) ] | length')
+        [ $result -eq 0 ]
     }

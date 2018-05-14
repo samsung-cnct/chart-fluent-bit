@@ -23,6 +23,7 @@ spec:
       containers:
         - name: {{.Values.name}}
           image: {{.Values.image}}
+          imagePullPolicy: Always
           env:
           - name: FLUENT_ELASTICSEARCH_HOST
             value: "{{.Values.elasticSearchHost}}"
