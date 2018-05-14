@@ -10,6 +10,6 @@ metadata:
 data:
   run.sh: |-
     @test "Test that every input plugin has produced at least one record." {
-      result=$(curl http://{{ template "name" . }}:2020/api/v1/metrics | jq '[(.input[].records | select(. == 0)) ] | length')
+      result=$(curl http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics | jq '[(.input[].records | select(. == 0)) ] | length')
       [ "$result" = "0" ]
     }
