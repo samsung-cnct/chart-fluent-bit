@@ -5,8 +5,8 @@ LABEL description="Fluent Bit Docker image" \
       maintainer="Jim Conner <snafu.x@gmail.com>"
 
 ENV FLB_MAJOR 0
-ENV FLB_MINOR 12
-ENV FLB_PATCH 17
+ENV FLB_MINOR 13
+ENV FLB_PATCH 1
 ENV FLB_VERSION $FLB_MAJOR.$FLB_MINOR.$FLB_PATCH
 
 ENV FLB_TARBALL http://github.com/fluent/fluent-bit/archive/v$FLB_VERSION.zip

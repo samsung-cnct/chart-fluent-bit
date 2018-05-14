@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.name }}
+  # !? Remove this
+  namespace: dwat
+spec:
+  selector:
+    # !? This name should not be hard coded
+    k8s-app: fluent-bit-logging
+  ports:
+  - name: fluent-bit-http
+    protocol: TCP
+    port: 2020
+    targetPort: 2020
