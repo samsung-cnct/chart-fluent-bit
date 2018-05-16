@@ -23,6 +23,7 @@ spec:
       containers:
         - name: {{.Values.name}}
           image: {{.Values.image}}
+          imagePullPolicy: Always
           env:
           - name: FLUENT_ELASTICSEARCH_HOST
             value: "{{.Values.elasticSearchHost}}"
@@ -35,6 +36,8 @@ spec:
             limits:
               cpu: {{.Values.resources.limits.cpu}}
               memory: {{.Values.resources.limits.mem}}
+          ports:
+          - containerPort: 2020
           volumeMounts:
           - name: fbconfig
             mountPath: /fluent-bit/etc/fluent-bit.conf

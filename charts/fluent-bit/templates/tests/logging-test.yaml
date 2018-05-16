@@ -1,0 +1,59 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.name }}
+spec:
+  selector:
+    k8s-app: fluent-bit-logging
+  ports:
+  - name: fluent-bit-http
+    protocol: TCP
+    port: 2020
+    targetPort: 2020
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "namewithversion" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  initContainers:
+    - name: test-framework
+      image: dduportal/bats:0.4.0
+      command:
+      - "bash"
+      - "-c"
+      - |
+        set -ex
+        # copy bats to tools dir
+        cp -R /usr/local/libexec/ /tools/bats/
+      volumeMounts:
+      - mountPath: /tools
+        name: tools
+  containers:
+    - name: {{ .Release.Name }}
+      # TODO: For production use we need to maintain our own version
+      # of this container. We can't depend on public artifacts,
+      # especially given that these are not tagged.
+      image: graze/bats #everpeace/curl-jq
+      command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
+      volumeMounts:
+      - mountPath: /tests
+        name: tests
+        readOnly: true
+      - mountPath: /tools
+        name: tools
+  volumes:
+  - name: tests
+    configMap:
+      name: {{ template "fullname" . }}
+  - name: tools
+    emptyDir: {}
+  restartPolicy: Never
