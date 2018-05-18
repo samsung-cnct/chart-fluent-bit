@@ -8,15 +8,15 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
-  fluent-bit.conf: |-
 {{- if .Values.config }}
-{{ .Values.config | indent 4 }}
+{{- $root := . }}
+{{- range $key, $val := .Values.config }}
+  {{ $key }}: |-
+{{ tpl $val $root | indent 4}}
+{{- end }}
 {{- else }}
+  fluent-bit.conf: |-
 {{- include "fluent-bit.conf.tpl" . | indent 4 }}
 {{- end }}
   parsers.conf: |-
-{{- if .Values.parsers }}
-{{ .Values.parsers | indent 4 }}
-{{- else }}
 {{- include "parsers.conf.tpl" . | indent 4 }}
-{{- end }}
