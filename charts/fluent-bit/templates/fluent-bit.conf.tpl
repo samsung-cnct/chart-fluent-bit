@@ -10,13 +10,13 @@
 [INPUT]
     Name            systemd
     Tag             host.*
-    Path            /var/log/journal
+    Path            {{ .Values.varLogPath }}/journal
     Mem_Buf_Limit 5MB
 
 [INPUT]
     Name          tail
-    Path          /var/log/containers/*.log
-    Exclude_Path  /var/log/containers/fluent*.log
+    Path          {{ .Values.varLogPath }}/containers/*.log
+    Exclude_Path  {{ .Values.varLogPath }}/containers/fluent*.log
     Parser        docker
     Tag           kube.*
     DB            /var/log/flb_kube.db
