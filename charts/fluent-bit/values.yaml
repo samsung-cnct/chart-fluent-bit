@@ -15,11 +15,6 @@ resources:
 elasticSearchHost: elasticsearch
 elasticSearchPort: 9200
 
-# Path to directory containing `journald/` and `containers/`, typically
-# `/var/log/`, though some operating systems store logs in `/run/log`. Cf.
-# https://goo.gl/apMdJY and https://goo.gl/WaHSNf
-varLogPath: /var/log
-
 #config: |-
 
 #parsers: |-

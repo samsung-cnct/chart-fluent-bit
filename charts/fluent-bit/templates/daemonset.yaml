@@ -46,7 +46,10 @@ spec:
             mountPath: /fluent-bit/etc/parsers.conf
             subPath: parsers.conf
           - name: varlog
-            mountPath: {{ .Values.varLogPath }}
+            mountPath: /var/log
+            readOnly: true
+          - name: runlog
+            mountPath: /run/log
             readOnly: true
           - name: varlibdockercontainers
             mountPath: /var/lib/docker/containers
@@ -67,7 +70,12 @@ spec:
           name: {{ template "name" . }}
       - name: varlog
         hostPath:
-          path: {{ .Values.varLogPath }}
+          path: /var/log
+      # Some operating systems store logs in /run/log
+      # https://goo.gl/apMdJY https://goo.gl/WaHSNf
+      - name: runlog
+        hostPath:
+          path: /run/log
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
