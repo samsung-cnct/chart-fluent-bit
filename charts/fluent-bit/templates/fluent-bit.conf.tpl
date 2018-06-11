@@ -14,6 +14,12 @@
     Mem_Buf_Limit 5MB
 
 [INPUT]
+    Name            systemd
+    Tag             host.*
+    Path            /run/log/journal
+    Mem_Buf_Limit 5MB
+
+[INPUT]
     Name          tail
     Path          /var/log/containers/*.log
     Exclude_Path  /var/log/containers/fluent*.log
