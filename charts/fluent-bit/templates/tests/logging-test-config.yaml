@@ -17,6 +17,7 @@ data:
 
         until [ "${healthCode}" -gt "${INVALID}" ]; do
           healthCode=$(curl -s --connect-timeout 1 \
+            -o /dev/null \
             -w %{http_code} \
             --location \
               http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)
