@@ -36,7 +36,9 @@ data:
             sleep 3;
           fi
 
-        echo "healthCode returned from fb curl check was: $healthCode"
+        echo "$ATTEMPTS/$MAX_ATTEMPTS: healthCode returned from fb curl check was: $healthCode"
+
+        ((ATTEMPTS++))
         done
       done
     }
