@@ -31,5 +31,8 @@ data:
 
         result=$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics | \
           jq '[(.input[].records | select(. == 0)) ] | length')
+
+        echo "\$result was erroneous: '$result'"
+
         [ "$result" -eq 0 ]
     }
