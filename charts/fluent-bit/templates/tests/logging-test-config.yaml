@@ -9,6 +9,7 @@ metadata:
     release: {{ .Release.Name }}
 data:
   run.sh: |-
+    ATTEMPTS=0
     MAX_ATTEMPTS=5
 
     @test "Test that every input plugin has produced at least one record." {
@@ -17,29 +18,35 @@ data:
         # Get initial health code
         healthCode=${INVALID}
 
-        until [ "${healthCode}" -gt "${INVALID}" ]; do
-          healthCode=$(curl -s --connect-timeout 1 \
-            -o /dev/null \
-            -w %{http_code} \
-            --location \
-              http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)
+        while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
+        do
+          until [ "${healthCode}" -gt "${INVALID}" ]; do
+            healthCode=$(curl -s --connect-timeout 1 \
+              -o /dev/null \
+              -w %{http_code} \
+              --location \
+                http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)
 
-          # sleep for a 3 sec if failed
-          if [ "${healthCode}" -eq "${INVALID}" ]; then
-            echo "Will retry, result is ${healthCode}"
-            sleep 3;
-          fi
+            # sleep for a 3 sec if failed
+            if [[ "$healthCode" == 2[02][0-6] ]]; then
+              break
+            else
+              echo "Will retry, result was ${healthCode}"
+              sleep 3;
+            fi
 
-        echo "healthcode returned from fb curl check was: $healthCode"
+          echo "healthCode returned from fb curl check was: $healthCode"
+          done
         done
 
+        ATTEMPTS=0
         while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
         do
           resp="$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
 
           if [[ "$resp" == "" ]]
           then
-            echo "$ATTEMPT/$MAX_ATTEMPT: curl response was nil."
+            echo "$ATTEMPTS/$MAX_ATTEMPTS: curl response was nil."
             continue
           fi
 
