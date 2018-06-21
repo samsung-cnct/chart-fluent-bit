@@ -37,7 +37,7 @@ data:
         do
           resp="$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
 
-          if [[ "$resp" == "" ]
+          if [[ "$resp" == "" ]]
           then
             echo "$ATTEMPT/$MAX_ATTEMPT: curl response was nil."
             continue
