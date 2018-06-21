@@ -31,5 +31,5 @@ data:
 
         result=$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics | \
           jq '[(.input[].records | select(. == 0)) ] | length')
-        [ $result -eq 0 ]
+        [ "$result" -eq 0 ]
     }
