@@ -9,53 +9,58 @@ metadata:
     release: {{ .Release.Name }}
 data:
   run.sh: |-
-    ATTEMPTS=0
     MAX_ATTEMPTS=5
 
-    @test "Test that every input plugin has produced at least one record." {
+    @test "Test that API is available..."
+    {
+      INVALID=0
+      ATTEMPTS=0
 
-        INVALID=0
-        # Get initial health code
-        healthCode=${INVALID}
+      # Get initial health code
+      healthCode=${INVALID}
 
-        while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
-        do
-          until [ "${healthCode}" -gt "${INVALID}" ]; do
-            healthCode=$(curl -s --connect-timeout 1 \
-              -o /dev/null \
-              -w %{http_code} \
-              --location \
-                http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)
+      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
+      do
+        until [ "${healthCode}" -gt "${INVALID}" ]; do
+          healthCode=$(curl -s --connect-timeout 1 \
+            -o /dev/null \
+            -w %{http_code} \
+            --location \
+              http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)
 
-            # sleep for a 3 sec if failed
-            if [[ "$healthCode" == 2[02][0-6] ]]; then
-              break
-            else
-              echo "Will retry, result was ${healthCode}"
-              sleep 3;
-            fi
-
-          echo "healthCode returned from fb curl check was: $healthCode"
-          done
-        done
-
-        ATTEMPTS=0
-        while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
-        do
-          resp="$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
-
-          if [[ "$resp" == "" ]]
-          then
-            echo "$ATTEMPTS/$MAX_ATTEMPTS: curl response was nil."
-            continue
+          # sleep for a 3 sec if failed
+          if [[ "$healthCode" == 2[02][0-6] ]]; then
+            break
+          else
+            echo "Will retry, result was ${healthCode}"
+            sleep 3;
           fi
 
-          result="$(echo "$resp" | jq '[(.input[].records | select(. == 0)) ] | length')"
-
-          echo "$ATTEMPTS/$MAX_ATTEMPTS: \$result from jq on curl-check for metrics records was: '$result'"
-
-          ((ATTEMPTS++))
+        echo "healthCode returned from fb curl check was: $healthCode"
         done
+      done
+    }
 
-        [ "$result" -eq 0 ]
+    @test "Test that API returns that every input plugin has produced at least one record."
+    {
+      ATTEMPTS=0
+
+      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
+      do
+        resp="$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
+
+        if [[ "$resp" == "" ]]
+        then
+          echo "$ATTEMPTS/$MAX_ATTEMPTS: curl response was nil."
+          continue
+        fi
+
+        result="$(echo "$resp" | jq '[(.input[].records | select(. == 0)) ] | length')"
+
+        echo "$ATTEMPTS/$MAX_ATTEMPTS: \$result from jq on curl-check for metrics records was: '$result'"
+
+        ((ATTEMPTS++))
+      done
+
+      [ "$result" -eq 0 ]
     }
