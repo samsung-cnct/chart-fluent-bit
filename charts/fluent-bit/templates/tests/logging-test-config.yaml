@@ -64,5 +64,6 @@ data:
         ((ATTEMPTS++))
       done
 
+      sleep 600
       [ "$result" -eq 0 ]
     }
