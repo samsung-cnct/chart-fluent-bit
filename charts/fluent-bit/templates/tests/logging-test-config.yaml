@@ -12,6 +12,10 @@ data:
     MAX_ATTEMPTS=5
 
     @test "Test that API is available..." {
+      # for some reason, during CI, the first call to the API is returning
+      # a 404. So trying a sleep.
+      sleep 30
+
       GOOD=1
       RESP=0
       INVALID=0
@@ -68,6 +72,5 @@ data:
         ATTEMPTS=$((ATTEMPTS + 1))
       done
 
-      sleep 600
       [[ "$result" == 0 ]]
     }
