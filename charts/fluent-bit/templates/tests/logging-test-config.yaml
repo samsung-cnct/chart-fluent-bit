@@ -11,16 +11,17 @@ data:
   run.sh: |-
     MAX_ATTEMPTS=5
 
-    @test "Test that API is available..."
-    {
+    @test "Test that API is available..." {
+      GOOD=1
+      RESP=0
       INVALID=0
       ATTEMPTS=0
 
       # Get initial health code
       healthCode=${INVALID}
 
-      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
-      do
+      echo
+      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
         until [ "${healthCode}" -gt "${INVALID}" ]; do
           healthCode=$(curl -s --connect-timeout 1 \
             -o /dev/null \
@@ -31,6 +32,7 @@ data:
           # sleep for a 3 sec if failed
           if [[ "$healthCode" == 2[02][0-6] ]]; then
             break
+            RESP=1
           else
             echo "Will retry, result was ${healthCode}"
             sleep 3;
@@ -41,12 +43,14 @@ data:
         ((ATTEMPTS++))
         done
       done
+
+      [[ $RESP == $GOOD ]]
     }
 
-    @test "Test that API returns that every input plugin has produced at least one record."
-    {
+    @test "Test that API returns that every input plugin has produced at least one record." {
       ATTEMPTS=0
 
+      echo
       while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
       do
         resp="$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
@@ -64,5 +68,5 @@ data:
         ((ATTEMPTS++))
       done
 
-      [ "$result" -eq 0 ]
+      [[ "$result" == 0 ]]
     }
