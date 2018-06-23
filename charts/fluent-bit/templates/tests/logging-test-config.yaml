@@ -38,9 +38,9 @@ data:
             sleep 3;
           fi
 
-        echo "$ATTEMPTS/$MAX_ATTEMPTS: healthCode returned from fb curl check was: $healthCode"
+          echo "$ATTEMPTS/$MAX_ATTEMPTS: healthCode returned from fb curl check was: $healthCode"
 
-        ((ATTEMPTS++))
+          ATTEMPTS=$((ATTEMPTS + 1))
         done
       done
 
@@ -65,8 +65,9 @@ data:
 
         echo "$ATTEMPTS/$MAX_ATTEMPTS: \$result from jq on curl-check for metrics records was: '$result'"
 
-        ((ATTEMPTS++))
+        ATTEMPTS=$((ATTEMPTS + 1))
       done
 
+      sleep 600
       [[ "$result" == 0 ]]
     }
