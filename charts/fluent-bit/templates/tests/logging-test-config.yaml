@@ -10,6 +10,7 @@ metadata:
 data:
   run.sh: |-
     MAX_ATTEMPTS=5
+    URL="http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
 
     @test "Test that API is available..." {
       GOOD=1
@@ -27,12 +28,12 @@ data:
         run curl -s --connect-timeout 1 \
              -o /dev/null        \
              -w %{http_code}     \
-             --location http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
+             --location $URL
 
         # sleep for a 3 secs if failed
-        if [[ "$output" == 2[02][0-6] ]]; then
-          break
+        if [[ $output == 200 ]]; then
           RESP=1
+          break
         else
           echo "Will retry, result was ${output}"
           sleep 3;
@@ -53,7 +54,7 @@ data:
       while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
       do
         echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
-        run curl -s http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
+        run curl -s -connect-timeout 1 -H "accept: application/json" $URL > /dev/null
 
         if [[ "$output" == "" ]]
         then
@@ -61,13 +62,12 @@ data:
           continue
         fi
 
-        run echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length'
+        resp=$(echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length')
 
-        echo "\$result from jq on curl-check for metrics records was: '$output'"
+        echo "\$resp from jq on curl-check for metrics records was: '$resp'"
 
         ((ATTEMPTS++))
       done
 
-      [[ "$result" == 0 ]]
+      [[ "$resp" == 0 ]]
     }
-
