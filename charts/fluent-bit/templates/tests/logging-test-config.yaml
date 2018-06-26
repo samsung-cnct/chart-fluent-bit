@@ -11,66 +11,63 @@ data:
   run.sh: |-
     MAX_ATTEMPTS=5
 
-    @test "Test that API is available..." {
-      # for some reason, during CI, the first call to the API is returning
-      # a 404. So trying a sleep.
-      sleep 30
+@test "Test that API is available..." {
+  GOOD=1
+  RESP=0
+  INVALID=0
+  ATTEMPTS=1
 
-      GOOD=1
-      RESP=0
-      INVALID=0
-      ATTEMPTS=0
+  # Get initial health code
+  healthCode=${INVALID}
 
-      # Get initial health code
-      healthCode=${INVALID}
+  echo
+  while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
+    echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
 
-      echo
-      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
-        until [ "${healthCode}" -gt "${INVALID}" ]; do
-          healthCode=$(curl -s --connect-timeout 1 \
-            -o /dev/null \
-            -w %{http_code} \
-            --location \
-              http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)
+    run curl -s --connect-timeout 1 \
+         -o /dev/null        \
+         -w %{http_code}     \
+         --location http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
 
-          # sleep for a 3 sec if failed
-          if [[ "$healthCode" == 2[02][0-6] ]]; then
-            break
-            RESP=1
-          else
-            echo "Will retry, result was ${healthCode}"
-            sleep 3;
-          fi
+    # sleep for a 3 secs if failed
+    if [[ "$output" == 2[02][0-6] ]]; then
+      break
+      RESP=1
+    else
+      echo "Will retry, result was ${output}"
+      sleep 3;
+    fi
 
-          echo "$ATTEMPTS/$MAX_ATTEMPTS: healthCode returned from fb curl check was: $healthCode"
+    echo "healthCode returned from fb curl check was: $output"
 
-          ATTEMPTS=$((ATTEMPTS + 1))
-        done
-      done
+    ((ATTEMPTS++))
+  done
 
-      [[ $RESP == $GOOD ]]
-    }
+  [[ $RESP == $GOOD ]]
+}
 
-    @test "Test that API returns that every input plugin has produced at least one record." {
-      ATTEMPTS=0
+@test "Test that API returns that every input plugin has produced at least one record." {
+  ATTEMPTS=1
 
-      echo
-      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
-      do
-        resp="$(curl -s http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
+  echo
+  while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
+  do
+    echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
+    run curl -s http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
 
-        if [[ "$resp" == "" ]]
-        then
-          echo "$ATTEMPTS/$MAX_ATTEMPTS: curl response was nil."
-          continue
-        fi
+    if [[ "$output" == "" ]]
+    then
+      echo "curl response was nil."
+      continue
+    fi
 
-        result="$(echo "$resp" | jq '[(.input[].records | select(. == 0)) ] | length')"
+    run echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length'
 
-        echo "$ATTEMPTS/$MAX_ATTEMPTS: \$result from jq on curl-check for metrics records was: '$result'"
+    echo "\$result from jq on curl-check for metrics records was: '$output'"
 
-        ATTEMPTS=$((ATTEMPTS + 1))
-      done
+    ((ATTEMPTS++))
+  done
 
-      [[ "$result" == 0 ]]
-    }
+  [[ "$result" == 0 ]]
+}
+
