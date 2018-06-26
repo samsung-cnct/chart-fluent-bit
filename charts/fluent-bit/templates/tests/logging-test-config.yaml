@@ -11,63 +11,63 @@ data:
   run.sh: |-
     MAX_ATTEMPTS=5
 
-@test "Test that API is available..." {
-  GOOD=1
-  RESP=0
-  INVALID=0
-  ATTEMPTS=1
+  @test "Test that API is available..." {
+    GOOD=1
+    RESP=0
+    INVALID=0
+    ATTEMPTS=1
 
-  # Get initial health code
-  healthCode=${INVALID}
+    # Get initial health code
+    healthCode=${INVALID}
 
-  echo
-  while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
-    echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
+    echo
+    while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
+      echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
 
-    run curl -s --connect-timeout 1 \
-         -o /dev/null        \
-         -w %{http_code}     \
-         --location http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
+      run curl -s --connect-timeout 1 \
+           -o /dev/null        \
+           -w %{http_code}     \
+           --location http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
 
-    # sleep for a 3 secs if failed
-    if [[ "$output" == 2[02][0-6] ]]; then
-      break
-      RESP=1
-    else
-      echo "Will retry, result was ${output}"
-      sleep 3;
-    fi
+      # sleep for a 3 secs if failed
+      if [[ "$output" == 2[02][0-6] ]]; then
+        break
+        RESP=1
+      else
+        echo "Will retry, result was ${output}"
+        sleep 3;
+      fi
 
-    echo "healthCode returned from fb curl check was: $output"
+      echo "healthCode returned from fb curl check was: $output"
 
-    ((ATTEMPTS++))
-  done
+      ((ATTEMPTS++))
+    done
 
-  [[ $RESP == $GOOD ]]
-}
+    [[ $RESP == $GOOD ]]
+  }
 
-@test "Test that API returns that every input plugin has produced at least one record." {
-  ATTEMPTS=1
+  @test "Test that API returns that every input plugin has produced at least one record." {
+    ATTEMPTS=1
 
-  echo
-  while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
-  do
-    echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
-    run curl -s http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
+    echo
+    while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
+    do
+      echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
+      run curl -s http://fluent-bit.pipeline-fluent-bit-pr-37-jenkins:2020/api/v1/metrics
 
-    if [[ "$output" == "" ]]
-    then
-      echo "curl response was nil."
-      continue
-    fi
+      if [[ "$output" == "" ]]
+      then
+        echo "curl response was nil."
+        continue
+      fi
 
-    run echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length'
+      run echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length'
 
-    echo "\$result from jq on curl-check for metrics records was: '$output'"
+      echo "\$result from jq on curl-check for metrics records was: '$output'"
 
-    ((ATTEMPTS++))
-  done
+      ((ATTEMPTS++))
+    done
 
-  [[ "$result" == 0 ]]
-}
+    [[ "$result" == 0 ]]
+  }
 
