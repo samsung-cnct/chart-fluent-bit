@@ -1,5 +1,4 @@
 # Fluent-bit Daemonset for Kubernetes Logging
-[![pipeline status](https://git.cnct.io/common-tools/samsung-cnct_chart-fluent-bit/badges/master/pipeline.svg)](https://git.cnct.io/common-tools/samsung-cnct_chart-fluent-bit/commits/master)
 
 [Fluent-bit](http://fluentbit.io/) daemonset dependencies for Kubernetes
 logging. The helm chart and docker image for this repository are located at:
@@ -31,7 +30,4 @@ This filter adds the following data into the body of the log.
 * container name
 * docker container id
 
-For more information on the filter or to see a list of configuration options: http://fluentbit.io/documentation/0.12/filter/kubernetes.html
-
-## CI system
-This repository uses [gitlab ci](https://about.gitlab.com/features/gitlab-ci-cd/) for CI.  The gitlab ci config file sets a number of tests to be run for each commit to an open PR, a merge to master and for a pushed tag.  A merge to master or a new tag will create new packaged versions in the alpha and stable channels, respectively.  Specifics on these processes can be found in .gitlab-ci.yml at the top level of this repository.  
+For more information on the filter or to see a list of configuration options: http://fluentbit.io/documentation/0.12/filter/kubernetes.html 
