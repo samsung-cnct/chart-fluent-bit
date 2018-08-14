@@ -44,6 +44,8 @@
     Match *
     Host  ${FLUENT_ELASTICSEARCH_HOST}
     Port  ${FLUENT_ELASTICSEARCH_PORT}
+    HTTP_User ${FLUENT_ELASTICSEARCH_USER}
+    HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
     Logstash_Format On
     Retry_Limit False
 {{ end }}
