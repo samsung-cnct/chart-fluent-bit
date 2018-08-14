@@ -8,6 +8,14 @@ https://quay.io/repository/samsung_cnct/fluent-bit-container respectively.
 
 Currently this daemonset reads [Docker logs](https://docs.docker.com/engine/admin/logging/overview/) from `/var/log/containers` and [journald logs](https://www.freedesktop.org/software/systemd/man/systemd-journald.service.html) from `/var/log/journal`. It adds Kubernetes metadata to the logs and writes them to stdout.
 It is included in our [logging](https://github.com/samsung-cnct/chart-logging) pipeline.
+
+## How to install on running Kubernetes cluster with `helm`
+Install Helm and the Helm registry plugin with [these](https://github.com/app-registry/appr-helm-plugin/blob/master/README.md#install-the-helm-registry-plugin) instructions.
+
+```
+helm registry install quay.io/samsung_cnct/fluent-bit
+```
+
 ## Plugins
 
 #### Systemd Input Plugin
