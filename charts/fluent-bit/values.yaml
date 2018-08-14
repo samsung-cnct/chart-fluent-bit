@@ -14,6 +14,8 @@ resources:
 
 elasticSearchHost: elasticsearch
 elasticSearchPort: 9200
+elasticSearchUsername: elastic
+elasticSearchPassword: changeme
 
 #config: |-
 
