@@ -29,6 +29,10 @@ spec:
             value: "{{.Values.elasticSearchHost}}"
           - name: FLUENT_ELASTICSEARCH_PORT
             value: "{{.Values.elasticSearchPort}}"
+          - name: FLUENT_ELASTICSEARCH_USER # even if not used they are necessary
+            value: "{{.Values.elasticSearchUsername}}"
+          - name: FLUENT_ELASTICSEARCH_PASSWORD # even if not used they are necessary
+            value: "{{.Values.elasticSearchPassword}}"
           resources:
             requests:
               cpu: {{.Values.resources.requests.cpu}}
