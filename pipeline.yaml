@@ -2,6 +2,7 @@
 type: chart
 rootfs:
   - image: samsung_cnct/fluent-bit-container
+    dockerContext: rootfs/fluent-bit
     context: fluent-bit
     chart: fluent-bit
     value: image
