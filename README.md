@@ -1,5 +1,7 @@
 # Fluent-bit Daemonset for Kubernetes Logging
 
+[![Build Status](https://jenkins.migrations.cnct.io/buildStatus/icon?job=pipeline-fluent-bit/master)](https://jenkins.migrations.cnct.io/job/pipeline-fluent-bit/job/master)
+
 [Fluent-bit](http://fluentbit.io/) daemonset dependencies for Kubernetes
 logging. The helm chart and docker image for this repository are located at:
 https://quay.io/application/samsung_cnct/fluent-bit and
