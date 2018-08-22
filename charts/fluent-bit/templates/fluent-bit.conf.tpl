@@ -41,5 +41,6 @@
     HTTP_User ${FLUENT_ELASTICSEARCH_USER}
     HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
     Logstash_Format On
+    Time_key etime
     Retry_Limit False
 {{ end }}
