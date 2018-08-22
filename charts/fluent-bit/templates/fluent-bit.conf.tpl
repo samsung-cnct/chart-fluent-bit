@@ -10,12 +10,6 @@
 [INPUT]
     Name            systemd
     Tag             host.*
-    Path            /var/log/journal
-    Mem_Buf_Limit 5MB
-
-[INPUT]
-    Name            systemd
-    Tag             host.*
     Path            /run/log/journal
     Mem_Buf_Limit 5MB
 
@@ -25,7 +19,7 @@
     Exclude_Path  /var/log/containers/fluent*.log
     Parser        docker
     Tag           kube.*
-    DB            /var/log/flb_kube.db
+    DB            /tmp/flb_kube.db
     Skip_Long_Lines On
     Mem_Buf_Limit 5MB
 
@@ -37,7 +31,7 @@
 [FILTER]
     Name   kubernetes
     Match  kube.*
-    Merge_JSON_Log On
+    Merge_Log On
 
 [OUTPUT]
     Name  es
