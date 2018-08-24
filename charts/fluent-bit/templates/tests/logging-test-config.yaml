@@ -1,16 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "fullname" . }}
-  labels:
-    app: {{ template "name" . }}
-    chart: {{ template "namewithversion" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+  name: {{ printf "%s-%s" .Release.Name "fluentbittest" | trunc 63 }}
 data:
   run.sh: |-
     MAX_ATTEMPTS=5
-    URL="http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
+    URL="http://{{ .Values.name }}.{{ .Release.Namespace }}:2020/api/v1/metrics"
 
     @test "Test that API is available..." {
       GOOD=1
@@ -21,9 +16,10 @@ data:
       # Get initial health code
       healthCode=${INVALID}
 
-      echo
+      echo "" >&3
+      echo "URL: $URL" >&3
       while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
-        echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
+        echo "Trying: $ATTEMPTS/$MAX_ATTEMPTS:" >&3
 
         run curl -s --connect-timeout 1 \
              -o /dev/null        \
@@ -35,11 +31,11 @@ data:
           RESP=1
           break
         else
-          echo "Will retry, result was ${output}"
+          echo "Will retry, result was ${output}" >&3
           sleep 3;
         fi
 
-        echo "healthCode returned from fb curl check was: $output"
+        echo "healthCode returned from fb curl check was: $output" >&3
 
         ((ATTEMPTS++))
       done
@@ -50,21 +46,25 @@ data:
     @test "Test that API returns that every input plugin has produced at least one record." {
       ATTEMPTS=1
 
-      echo
+      echo "" >&3
       while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
       do
-        echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
+      echo  "Trying: $ATTEMPTS/$MAX_ATTEMPTS:" >&3
         run curl -s -connect-timeout 1 -H "accept: application/json" $URL > /dev/null
 
         if [[ "$output" == "" ]]
         then
-          echo "curl response was nil."
+          echo "curl response was nil." >&3
+          ((ATTEMPTS++))
           continue
         fi
 
+        echo "-----------" >&3
+        echo "$output" >&3
+
         resp=$(echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length')
 
-        echo "\$resp from jq on curl-check for metrics records was: '$resp'"
+        echo "\$resp from jq on curl-check for metrics records was: '$resp'" >&3
 
         ((ATTEMPTS++))
       done
