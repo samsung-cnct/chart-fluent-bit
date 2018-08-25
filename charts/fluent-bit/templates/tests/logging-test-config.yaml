@@ -19,6 +19,7 @@ data:
       echo "" >&3
       echo "URL: $URL" >&3
       while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
+        echo "--------------------------------" >&3
         echo "Trying: $ATTEMPTS/$MAX_ATTEMPTS:" >&3
 
         run curl -s --connect-timeout 1 \
@@ -26,6 +27,7 @@ data:
              -w %{http_code}     \
              --location $URL
 
+        echo "CURL OUTPUT: $output" >&3
         # sleep for a 3 secs if failed
         if [[ $output == 200 ]]; then
           RESP=1
@@ -61,6 +63,8 @@ data:
 
         echo "-----------" >&3
         echo "$output" >&3
+        echo "-----------" >&3
+        echo "$(echo $output | jq '[(.input[].records)]' )" >&3
 
         resp=$(echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length')
 
