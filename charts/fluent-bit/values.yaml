@@ -17,6 +17,9 @@ elasticSearchPort: 9200
 elasticSearchUsername: elastic
 elasticSearchPassword: changeme
 
+test:
+  image: quay.io/samsung_cnct/e2etester:prod
+
 #config: |-
 
 #parsers: |-

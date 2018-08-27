@@ -15,12 +15,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ template "fullname" . }}
-  labels:
-    app: {{ template "name" . }}
-    chart: {{ template "namewithversion" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+  name:  {{ printf "%s-%s" .Release.Name "fluentbittest" | trunc 63 }}
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -38,11 +33,8 @@ spec:
       - mountPath: /tools
         name: tools
   containers:
-    - name: {{ .Release.Name }}
-      # TODO: For production use we need to maintain our own version
-      # of this container. We can't depend on public artifacts,
-      # especially given that these are not tagged.
-      image: graze/bats #everpeace/curl-jq
+    - name: {{ .Release.Name }}-test
+      image: {{ .Values.test.image }}
       command: ["/tools/bats/bats", "-t", "/tests/run.sh"]
       volumeMounts:
       - mountPath: /tests
@@ -53,7 +45,7 @@ spec:
   volumes:
   - name: tests
     configMap:
-      name: {{ template "fullname" . }}
+      name: {{ printf "%s-%s" .Release.Name "fluentbittest" | trunc 63 }}
   - name: tools
     emptyDir: {}
   restartPolicy: Never
