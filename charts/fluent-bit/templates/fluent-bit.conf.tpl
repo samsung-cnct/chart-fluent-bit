@@ -11,12 +11,7 @@
     Name            systemd
     Tag             host.*
     Path            /var/log/journal
-    Mem_Buf_Limit 5MB
-
-[INPUT]
-    Name            systemd
-    Tag             host.*
-    Path            /run/log/journal
+    Systemd_Filter  _SYSTEMD_UNIT=docker.service
     Mem_Buf_Limit 5MB
 
 [INPUT]
@@ -26,7 +21,6 @@
     Parser        docker
     Tag           kube.*
     DB            /tmp/flb_kube.db
-    Skip_Long_Lines On
     Mem_Buf_Limit 5MB
 
 [FILTER]
@@ -36,17 +30,30 @@
 
 [FILTER]
     Name   kubernetes
-    Match  kube.*
+    Match  *
     Merge_Log On
 
 [OUTPUT]
     Name  es
-    Match *
+    Match host.*
     Host  ${FLUENT_ELASTICSEARCH_HOST}
     Port  ${FLUENT_ELASTICSEARCH_PORT}
     HTTP_User ${FLUENT_ELASTICSEARCH_USER}
     HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
+    Time_Key ${FLUENT_TIMESTAMP}
     Logstash_Format On
-    Time_key etime
+    Logstash_Prefix systemd
     Retry_Limit False
+
+[OUTPUT]
+    Name  es
+    Match kube.*
+    Host  ${FLUENT_ELASTICSEARCH_HOST}
+    Port  ${FLUENT_ELASTICSEARCH_PORT}
+    HTTP_User ${FLUENT_ELASTICSEARCH_USER}
+    HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
+    Time_Key ${FLUENT_TIMESTAMP}
+    Logstash_Format On
+    Retry_Limit False
+
 {{ end }}
