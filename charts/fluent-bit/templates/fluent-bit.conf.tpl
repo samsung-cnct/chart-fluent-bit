@@ -21,6 +21,7 @@
     Parser        docker
     Tag           kube.*
     DB            /tmp/flb_kube.db
+    Skip_Long_Lines On
     Mem_Buf_Limit 5MB
 
 [FILTER]
