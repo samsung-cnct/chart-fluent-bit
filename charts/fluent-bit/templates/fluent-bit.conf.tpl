@@ -31,7 +31,7 @@
 
 [FILTER]
     Name   kubernetes
-    Match  *
+    Match  kube.*
     Merge_Log On
 
 [OUTPUT]
