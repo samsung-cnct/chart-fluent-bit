@@ -13,6 +13,13 @@
     Path            /var/log/journal
     Systemd_Filter  _SYSTEMD_UNIT=docker.service
     Mem_Buf_Limit 5MB
+   
+[INPUT]
+    Name            systemd
+    Tag             host.*
+    Path            /run/log/journal
+    Systemd_Filter  _SYSTEMD_UNIT=docker.service
+    Mem_Buf_Limit 5MB   
 
 [INPUT]
     Name          tail
