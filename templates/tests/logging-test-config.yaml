@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "namewithversion" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  run.sh: |-
+    MAX_ATTEMPTS=5
+    URL="http://{{ template "name" . }}.{{ .Release.Namespace }}:2020/api/v1/metrics)"
+
+    @test "Test that API is available..." {
+      GOOD=1
+      RESP=0
+      INVALID=0
+      ATTEMPTS=1
+
+      # Get initial health code
+      healthCode=${INVALID}
+
+      echo
+      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]; do
+        echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
+
+        run curl -s --connect-timeout 1 \
+             -o /dev/null        \
+             -w %{http_code}     \
+             --location $URL
+
+        # sleep for a 3 secs if failed
+        if [[ $output == 200 ]]; then
+          RESP=1
+          break
+        else
+          echo "Will retry, result was ${output}"
+          sleep 3;
+        fi
+
+        echo "healthCode returned from fb curl check was: $output"
+
+        ((ATTEMPTS++))
+      done
+
+      [[ $RESP == $GOOD ]]
+    }
+
+    @test "Test that API returns that every input plugin has produced at least one record." {
+      ATTEMPTS=1
+
+      echo
+      while [[ $ATTEMPTS -lt $MAX_ATTEMPTS ]]
+      do
+        echo -n "$ATTEMPTS/$MAX_ATTEMPTS:"
+        run curl -s -connect-timeout 1 -H "accept: application/json" $URL > /dev/null
+
+        if [[ "$output" == "" ]]
+        then
+          echo "curl response was nil."
+          continue
+        fi
+
+        resp=$(echo "$output" | jq '[(.input[].records | select(. == 0)) ] | length')
+
+        echo "\$resp from jq on curl-check for metrics records was: '$resp'"
+
+        ((ATTEMPTS++))
+      done
+
+      [[ "$resp" == 0 ]]
+    }

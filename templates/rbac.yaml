@@ -1,0 +1,38 @@
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{.Values.name}}-{{.Release.Namespace }}
+  labels:
+    component: {{.Values.name}}
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+    chart: "{{template "namewithversion" .}}"
+    release: "{{.Release.Name}}"
+    heritage: "{{.Release.Service}}"
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces", "pods"]
+    verbs: ["get", "watch", "list"]
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{.Values.name}}-{{ .Release.Namespace }}
+  labels:
+    component: {{.Values.name}}
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+    chart: "{{template "namewithversion" .}}"
+    release: "{{.Release.Name}}"
+    heritage: "{{.Release.Service}}"
+subjects:
+  - kind: ServiceAccount
+    name: {{.Values.name}}
+    namespace: {{.Release.Namespace}}
+    apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: {{.Values.name}}-{{ .Release.Namespace }}
+  apiGroup: ""

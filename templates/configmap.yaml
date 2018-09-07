@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "name" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "namewithversion" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+{{- if .Values.config }}
+{{- $root := . }}
+{{- range $key, $val := .Values.config }}
+  {{ $key }}: |-
+{{ tpl $val $root | indent 4}}
+{{- end }}
+{{- else }}
+  fluent-bit.conf: |-
+{{- include "fluent-bit.conf.tpl" . | indent 4 }}
+{{- end }}
+  parsers.conf: |-
+{{- include "parsers.conf.tpl" . | indent 4 }}
