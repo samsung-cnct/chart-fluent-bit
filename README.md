@@ -28,11 +28,11 @@ helm install --name my-release --namespace my-namespace ./fluent-bit
 
 This input plugin reads from /var/log/journal, which contains kernel, dockerd, and rkt logs, among others. It is new as of v0.12.
 More informaton on this plugin can be found at:
-http://fluentbit.io/documentation/0.13/input/systemd.html
+http://fluentbit.io/documentation/0.14/input/systemd.html
 
 #### Tail Input Plugin
 
-This input plugin monitors text files as matched by a specified Path; in this case, `/var/log/containers/*.log`, excluding `/var/log/containers/fluent*.log`. More information on this plugin can be found at: http://fluentbit.io/documentation/0.13/input/tail.html
+This input plugin monitors text files as matched by a specified Path; in this case, `/var/log/containers/*.log`, excluding `/var/log/containers/fluent*.log`. More information on this plugin can be found at: http://fluentbit.io/documentation/0.14/input/tail.html
 
 #### Kubernetes Metadata Filter
 
@@ -45,4 +45,4 @@ This filter adds the following data into the body of the log.
 * container name
 * docker container id
 
-For more information on the filter or to see a list of configuration options: http://fluentbit.io/documentation/0.13/filter/kubernetes.html 
+For more information on the filter or to see a list of configuration options: http://fluentbit.io/documentation/0.14/filter/kubernetes.html 

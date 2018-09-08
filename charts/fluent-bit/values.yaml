@@ -1,6 +1,6 @@
 ---
 name: fluent-bit
-image: quay.io/samsung_cnct/fluent-bit-container:prod
+image: fluent/fluent-bit:0.14.1
 
 cluster_uuid: 00000000-0000-0000-0000-000000000000
 
