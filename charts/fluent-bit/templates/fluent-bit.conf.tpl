@@ -67,6 +67,6 @@
     HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
     Time_Key ${FLUENT_TIMESTAMP}
     Logstash_Format On
-    Logstash_Prefix systemd
+    Logstash_Prefix logsystemd
     Retry_Limit False
 {{ end }}
