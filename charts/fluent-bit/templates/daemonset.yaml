@@ -33,6 +33,8 @@ spec:
             value: "{{.Values.elasticSearchUsername}}"
           - name: FLUENT_ELASTICSEARCH_PASSWORD # even if not used they are necessary
             value: "{{.Values.elasticSearchPassword}}"
+          - name: FLUENT_TIMESTAMP
+            value: “{{.Values.fluentTimeStamp}}”   
           resources:
             requests:
               cpu: {{.Values.resources.requests.cpu}}
