@@ -54,7 +54,6 @@
     Port  ${FLUENT_ELASTICSEARCH_PORT}
     HTTP_User ${FLUENT_ELASTICSEARCH_USER}
     HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
-    Time_Key ${FLUENT_TIMESTAMP}
     Logstash_Format On
     Retry_Limit False
 
@@ -65,7 +64,6 @@
     Port  ${FLUENT_ELASTICSEARCH_PORT}
     HTTP_User ${FLUENT_ELASTICSEARCH_USER}
     HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
-    Time_Key ${FLUENT_TIMESTAMP}
     Logstash_Format On
     Logstash_Prefix logsystemd
     Retry_Limit False
