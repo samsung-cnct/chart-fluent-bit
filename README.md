@@ -20,6 +20,10 @@ helm install cnct/fluent-bit
 
 ```
 helm install --name my-release --namespace my-namespace ./fluent-bit
+
+e.g.
+
+helm install cnct/chart-fluent-bit. --name=fb-test --namespace=logging --set elasticSearchPassword="mlnpass",cluster_uuid=22222222-3333-0000-0000-000000000000,elasticSearchHost=es.newcluster.cluster.cnct.io
 ```
 
 ## Plugins
