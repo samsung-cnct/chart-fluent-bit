@@ -30,9 +30,17 @@ spec:
           - name: FLUENT_ELASTICSEARCH_PORT
             value: "{{.Values.elasticSearchPort}}"
           - name: FLUENT_ELASTICSEARCH_USER # even if not used they are necessary
-            value: "{{.Values.elasticSearchUsername}}"
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "fullname" . }}-auth
+                key: username
           - name: FLUENT_ELASTICSEARCH_PASSWORD # even if not used they are necessary
-            value: "{{.Values.elasticSearchPassword}}"
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "fullname" . }}-auth
+                key: password
+          - name: FLUENT_TIMESTAMP
+            value: “{{.Values.fluentTimeStamp}}”   
           resources:
             requests:
               cpu: {{.Values.resources.requests.cpu}}
