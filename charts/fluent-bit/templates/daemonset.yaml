@@ -39,8 +39,6 @@ spec:
               secretKeyRef:
                 name: {{ template "fullname" . }}-auth
                 key: password
-          - name: FLUENT_TIMESTAMP
-            value: “{{.Values.fluentTimeStamp}}”   
           resources:
             requests:
               cpu: {{.Values.resources.requests.cpu}}
