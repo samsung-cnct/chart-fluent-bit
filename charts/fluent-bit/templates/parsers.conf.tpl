@@ -37,6 +37,8 @@
     Time_Key    time
     Time_Format %Y-%m-%dT%H:%M:%S
     Time_Keep   On
+    Decode_Field_As escape_utf8 log do_next
+    Decode_Field_As json log
 
 [PARSER]
     Name        syslog
