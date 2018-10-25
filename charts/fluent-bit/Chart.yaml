@@ -1,6 +1,6 @@
 ---
 name: fluent-bit
-rersion: 0.1.3
+version: 0.1.3
 description: Fluent-bit chart for collecting journald, docker, and kernel logs
 keywords:
   - logging
