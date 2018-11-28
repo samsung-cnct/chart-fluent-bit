@@ -1,18 +1,5 @@
 ---
 type: chart
-#
-# As of 9/8/2018 - Use the Source Image directly. i.e. Stop building our own.
-# We built our own initially to place the conf/parse files in the image. 
-# HOWEVER, this is deprecated, as we overload those config files via the chart.
-# Theis means we do not have to attempt to build our own image, that is in lockstep
-# with the source fluent/fluent-bit repository.
-#
-#rootfs:
-#  - image: samsung_cnct/fluent-bit-container
-#    dockerContext: rootfs/fluent-bit
-#    context: fluent-bit
-#    chart: fluent-bit
-#    value: image
 configs:
   - chart: fluent-bit
     timeout: 600
