@@ -50,45 +50,45 @@ spec:
               cpu: {{.Values.resources.limits.cpu}}
               memory: {{.Values.resources.limits.mem}}
           ports:
-          - containerPort: 2020
+           - containerPort: 2020
           volumeMounts:
-          - name: fbconfig
-            mountPath: /fluent-bit/etc/fluent-bit.conf
-            subPath: fluent-bit.conf
-          - name: fbconfig
-            mountPath: /fluent-bit/etc/parsers.conf
-            subPath: parsers.conf
-          - name: varlog
-            mountPath: /var/log
-            readOnly: true
-          - name: runlog
-            mountPath: /run/log
-            readOnly: true
-          - name: varlibdockercontainers
-            mountPath: /var/lib/docker/containers
-            readOnly: true
+            - name: fbconfig
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: fluent-bit.conf
+            - name: fbconfig
+              mountPath: /fluent-bit/etc/parsers.conf
+              subPath: parsers.conf
+            - name: varlog
+              mountPath: /var/log
+              readOnly: true
+            - name: runlog
+              mountPath: /run/log
+              readOnly: true
+            - name: varlibdockercontainers
+              mountPath: /var/lib/docker/containers
+              readOnly: true
       {{- if .Values.tolerations}}
       tolerations:
       {{- range .Values.tolerations}}
-      - key: {{.key | default ("")}}
-        value: {{.value | default ("")}}
-        operator: {{.operator | default ("Equal")}}
-        effect: {{.effect | default ("")}}
+        - key: {{.key | default ("")}}
+          value: {{.value | default ("")}}
+          operator: {{.operator | default ("Equal")}}
+          effect: {{.effect | default ("")}}
       {{- end}}
       {{- end}}
       terminationGracePeriodSeconds: 10
       volumes:
-      - name: fbconfig
-        configMap:
-          name: {{ template "name" . }}
-      - name: varlog
-        hostPath:
-          path: /var/log
+        - name: fbconfig
+          configMap:
+            name: {{ template "name" . }}
+        - name: varlog
+          hostPath:
+            path: /var/log
       # Some operating systems store logs in /run/log
       # https://goo.gl/apMdJY https://goo.gl/WaHSNf
-      - name: runlog
-        hostPath:
-          path: /run/log
-      - name: varlibdockercontainers
-        hostPath:
-          path: /var/lib/docker/containers
+        - name: runlog
+          hostPath:
+            path: /run/log
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
