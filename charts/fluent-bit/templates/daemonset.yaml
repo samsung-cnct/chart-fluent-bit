@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{.Values.name}}
@@ -12,6 +12,9 @@ metadata:
     release: "{{.Release.Name}}"
     heritage: "{{.Release.Service}}"
 spec:
+  selector:
+    matchLabels:
+      k8s-app: fluent-bit-logging
   template:
     metadata:
       labels:
