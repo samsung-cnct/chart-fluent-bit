@@ -52,7 +52,7 @@ This filter adds the following data into the body of the log.
 * docker container id
 
 #### [Forward and Secure Forward][12]
-Forward is the protocol used by Fluentd to route messages between peers, and allows interoperability between Fluent Bit and Fluentd. Our default is set to forward To enable secure mode, set the `enableTlS` value in `values.yaml` to true, then uncomment this section in the output plugin: 
+Forward is the protocol used by Fluentd to route messages between peers, and allows interoperability between Fluent Bit and Fluentd. Our default is set to forward. To enable secure forward mode, set the `enableTlS` value in `values.yaml` to true, then uncomment this section in the output plugin: 
 ```
 Shared_Key    fluentd
 Self_Hostname fluentd 
