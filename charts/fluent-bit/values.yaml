@@ -12,6 +12,8 @@ resources:
     cpu: 300m
     mem: 1000Mi
 
+enableTLS: false
+fluentdHost: fluentd    
 elasticSearchHost: elasticsearch
 elasticSearchPort: 9200
 elasticSearchUsername: elastic

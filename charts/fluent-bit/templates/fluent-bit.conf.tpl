@@ -46,25 +46,19 @@
     Match  host.*
     Use_Journal On
     Buffer_Size 50MB
-
+    
 [OUTPUT]
-    Name  es
-    Match kube.*
-    Host  ${FLUENT_ELASTICSEARCH_HOST}
-    Port  ${FLUENT_ELASTICSEARCH_PORT}
-    HTTP_User ${FLUENT_ELASTICSEARCH_USER}
-    HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
-    Logstash_Format On
-    Retry_Limit False
-
-[OUTPUT]
-    Name  es
-    Match host.*
-    Host  ${FLUENT_ELASTICSEARCH_HOST}
-    Port  ${FLUENT_ELASTICSEARCH_PORT}
-    HTTP_User ${FLUENT_ELASTICSEARCH_USER}
-    HTTP_Passwd ${FLUENT_ELASTICSEARCH_PASSWORD}
-    Logstash_Format On
-    Logstash_Prefix logsystemd
-    Retry_Limit False
+    Name          forward
+    Match         **
+    Host          fluentd
+    Port          24220
+    <!-- Shared_Key    fluentd
+    Self_Hostname fluentd 
+    tls           on
+    tls.verify    off
+    tls.debug     4
+    tls.ca_file       /fluent-bit/ssl/ca.crt.pem
+    tls.crt_file      /fluent-bit/ssl/client.crt.pem
+    tls.key_file      /fluent-bit/ssl/client.key.pem
+    tls.key_passwd fbit -->
 {{ end }}

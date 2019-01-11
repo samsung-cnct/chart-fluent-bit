@@ -19,7 +19,7 @@ spec:
         version: v1
         kubernetes.io/cluster-service: "true"
     spec:
-      serviceAccountName: {{.Values.name}}
+      serviceAccountName: {{.Values.name}} 
       containers:
         - name: {{.Values.name}}
           image: {{.Values.image}}
@@ -64,6 +64,11 @@ spec:
           - name: varlibdockercontainers
             mountPath: /var/lib/docker/containers
             readOnly: true
+        {{- if enableTLS }}
+          - name: certs
+            mountPath: "/fluent-bit/ssl"
+            readOnly: true 
+        {{- end }}
       {{- if .Values.tolerations}}
       tolerations:
       {{- range .Values.tolerations}}
@@ -89,3 +94,8 @@ spec:
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
+      {{- if enableTLS }}
+      - name: certs
+        secret: 
+          secretName: fluentbit-tls
+      {{- end }}
