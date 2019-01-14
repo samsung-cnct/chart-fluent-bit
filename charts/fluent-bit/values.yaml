@@ -12,10 +12,8 @@ resources:
     cpu: 300m
     mem: 1000Mi
 
-elasticSearchHost: elasticsearch
-elasticSearchPort: 9200
-elasticSearchUsername: elastic
-elasticSearchPassword: changeme
+
+enableTLS: false
 
 test:
   image: quay.io/samsung_cnct/e2etester:prod
