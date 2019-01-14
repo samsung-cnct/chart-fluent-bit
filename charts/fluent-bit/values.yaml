@@ -13,7 +13,7 @@ resources:
     mem: 1000Mi
 
 
-enableTLS: true 
+enableTLS: false
 
 test:
   image: quay.io/samsung_cnct/e2etester:prod
