@@ -15,3 +15,5 @@ maintainers:
   email: oss-maintainer@samsung-cnct.io
 icon: https://github.com/fluent/fluent-bit/blob/master/fluentbit_logo.png
 engine: gotpl
+# should match values.image version
+appVersion: 0.14.8

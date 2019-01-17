@@ -1,5 +1,6 @@
 ---
 name: fluent-bit
+# version should match Chart.appVersion
 image: fluent/fluent-bit:0.14.8
 
 cluster_uuid: 00000000-0000-0000-0000-000000000000
