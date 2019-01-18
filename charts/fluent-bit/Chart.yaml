@@ -1,5 +1,5 @@
 name: fluent-bit
-version: 0.2.1
+version: 0.2.2
 description: Fluent-bit chart for collecting journald, docker, and kernel logs
 keywords:
 - logging
@@ -15,3 +15,5 @@ maintainers:
   email: oss-maintainer@samsung-cnct.io
 icon: https://github.com/fluent/fluent-bit/blob/master/fluentbit_logo.png
 engine: gotpl
+# should match values.image version
+appVersion: 0.14.8
