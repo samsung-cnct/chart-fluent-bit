@@ -51,6 +51,7 @@
     Name          forward
     Match         **
     Port          24220
+    Host          {{.Values.fluentd.name}}.{{.Release.Namespace}}.svc.cluster.local
     # Shared_Key    fluentd
     # Self_Hostname fluentd 
     # tls           on
