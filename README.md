@@ -12,7 +12,7 @@ Currently the daemonset reads Docker [logs][5] from `/var/log/containers` and jo
 
 Prerequisites: [helm][10], [tiller][8]
 
-    helm repo add cnct https://charts.migrations.cnct.io
+    helm repo add cnct https://charts.cnct.io
     helm repo update
     helm install cnct/fluent-bit
     
