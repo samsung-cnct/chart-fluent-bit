@@ -1,6 +1,6 @@
 # Fluent-Bit Helm Chart
 
-[![Build Status][1]](https://jenkins.migrations.cnct.io/job/pipeline-fluent-bit/job/master)
+[![Build Status][1]](https://jenkins.cnct.io/job/pipeline-fluent-bit/job/master)
 
 [Fluent-bit][2] daemonset for Kubernetes, using this [helm chart][3] and this [Dockerfile][4].
 
